@@ -1,17 +1,19 @@
 function maxProfit(prices: number[]): number {
-    let max = 0;
-    let left = 0;
-    let right = 1;
+    if (prices.length < 2) return 0; // Edge case: not enough prices to make a profit
 
-    while (right < prices.length) {
-        const profit = prices[right] - prices[left];
+    let minPriceIndex = 0;
+    let maxProfit = 0;
 
-        if (profit < 0) {
-            left = right;
+    for (let currentIndex = 1; currentIndex < prices.length; currentIndex++) {
+        const currentProfit = prices[currentIndex] - prices[minPriceIndex];
+
+        if (prices[currentIndex] < prices[minPriceIndex]) {
+            // Update minPriceIndex to the current index as we found a lower price
+            minPriceIndex = currentIndex;
         } else {
-            max = Math.max(max, profit);
+            // Calculate the profit and update maxProfit if we found a higher profit
+            maxProfit = Math.max(currentProfit, maxProfit);
         }
-        right++;
     }
-    return max;
-};
+    return maxProfit;
+}
